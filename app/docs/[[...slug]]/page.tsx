@@ -1,6 +1,7 @@
 import { DocsBody, DocsPage, DocsTitle } from 'fumadocs-ui/layouts/docs/page';
 import { notFound } from 'next/navigation';
 import { source } from '@/lib/source';
+import { ComponentPreview } from '@/components/component-preview';
 
 export function generateStaticParams() {
     return source.generateParams();
@@ -21,7 +22,7 @@ export default async function Page({
         <DocsPage toc={page.data.toc}>
             <DocsTitle>{page.data.title}</DocsTitle>
             <DocsBody>
-                <MDX />
+                <MDX components={{ ComponentPreview }} />
             </DocsBody>
         </DocsPage>
     );

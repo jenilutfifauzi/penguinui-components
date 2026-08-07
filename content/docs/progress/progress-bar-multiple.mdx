@@ -3,7 +3,9 @@ title: Progress Bar Multiple
 description: Progress Bar Multiple component built with Tailwind CSS and Alpine.js.
 ---
 
-# Progress Bar Multiple
+<ComponentPreview src="/preview/progress/progress-bar-multiple/index.html" title="Progress Bar Multiple" />
+
+## Source
 
 Source component: `progress/progress-bar-multiple.html`
 
@@ -14,3 +16,10 @@ Source component: `progress/progress-bar-multiple.html`
     <div class="h-full rounded-r-radius bg-success dark:bg-success" x-bind:style="`width: ${calcPercentage(minVal, maxVal, currentValC)}%`" role="progressbar" aria-label="progress bar C" x-bind:aria-valuenow="currentValC" x-bind:aria-valuemin="minVal" x-bind:aria-valuemax="maxVal"></div>
 </div>
 ```
+
+## Usage
+
+Copy the HTML fragment above into a page that already loads Tailwind CSS and Alpine.js.
+
+
+If the snippet contains placeholder links, IDs, or data, replace them with values from your application.
