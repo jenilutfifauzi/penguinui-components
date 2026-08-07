@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import postcss from 'postcss';
 import tailwindcss from '@tailwindcss/postcss';
+import { detectInteraction } from './preview-metadata.mjs';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.dirname(root);
@@ -85,6 +86,7 @@ async function writePage(sourcePath) {
     const source = await readFile(sourcePath, 'utf8');
     const title = titleFromFilename(filename);
     const plugins = detectPlugins(source);
+    const interaction = detectInteraction(source);
     const pluginText = plugins.length > 0
         ? `\nRequired Alpine plugins: ${plugins.map((plugin) => `\`${plugin}\``).join(', ')}.`
         : '';
@@ -98,7 +100,8 @@ async function writePage(sourcePath) {
     ].join('\n');
 
     await mkdir(path.dirname(output), { recursive: true });
-    await writeFile(output, `---\ntitle: ${title}\ndescription: ${title} component built with Tailwind CSS and Alpine.js.\n---\n\n<ComponentPreview src="${previewSlug(relative)}" title="${title}" />\n\n## Source\n\nSource component: \`${relative}\`\n\n\`\`\`html\n${escapeMdxCode(source)}\n\`\`\`\n\n${usage}\n`, 'utf8');
+    const interactionProp = interaction !== 'none' ? ` interaction="${interaction}"` : '';
+    await writeFile(output, `---\ntitle: ${title}\ndescription: ${title} component built with Tailwind CSS and Alpine.js.\n---\n\n<ComponentPreview src="${previewSlug(relative)}" title="${title}"${interactionProp} />\n\n## Source\n\nSource component: \`${relative}\`\n\n\`\`\`html\n${escapeMdxCode(source)}\n\`\`\`\n\n${usage}\n`, 'utf8');
     await writePreview(sourcePath);
 }
 

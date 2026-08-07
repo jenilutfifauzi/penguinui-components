@@ -2,12 +2,22 @@
 
 import { useEffect, useState } from 'react';
 
+type Interaction = 'click' | 'hover' | 'contextmenu' | 'click-or-contextmenu';
+
 type ComponentPreviewProps = {
     src: string;
     title: string;
+    interaction?: Interaction;
 };
 
-export function ComponentPreview({ src, title }: ComponentPreviewProps) {
+const interactionHints: Record<Interaction, string> = {
+    click: 'Try: Click',
+    hover: 'Try: Hover',
+    contextmenu: 'Try: Right-click',
+    'click-or-contextmenu': 'Try: Click or right-click',
+};
+
+export function ComponentPreview({ src, title, interaction }: ComponentPreviewProps) {
     const [height, setHeight] = useState(280);
 
     useEffect(() => {
@@ -29,7 +39,9 @@ export function ComponentPreview({ src, title }: ComponentPreviewProps) {
                 <span className="text-xs font-medium uppercase tracking-[0.12em] text-fd-muted-foreground">
                     Preview
                 </span>
-                <span className="text-xs text-fd-muted-foreground">Alpine.js + Tailwind CSS</span>
+                <span className="text-xs text-fd-muted-foreground">
+                    {interaction ? `${interactionHints[interaction]} · ` : ''}Alpine.js + Tailwind CSS
+                </span>
             </div>
             <iframe
                 title={`${title} preview`}
